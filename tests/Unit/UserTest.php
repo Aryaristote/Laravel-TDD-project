@@ -39,6 +39,7 @@ class UserTest extends TestCase
     //     $this->assertTrue(true);
     // }
 
+
     // Database test
     // public function test_database() {
     //     $this->assertDatabaseHas('users', [

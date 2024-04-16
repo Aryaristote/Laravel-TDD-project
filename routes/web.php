@@ -17,10 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
+
+Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/orders', [OrderController::class, 'store']);
+
+Route::put('/orders/{order}', [OrderController::class, 'update']);
+
+Route::delete('/orders/{order}', [OrderController::class, 'delete']);
