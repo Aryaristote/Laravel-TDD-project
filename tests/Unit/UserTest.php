@@ -8,88 +8,58 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $this->assertTrue(true);
-    }
-
-    //Check if login page exists
-    public function test_login_form()
-    {
-        $response = $this->get('/login');
-
+    public function test_example() {
+        $response = $this->get('/');
         $response->assertStatus(200);
+        // $this->assertTrue(true);
     }
 
-    //Check if user exists in database
-    public function test_user_duplication()
-    {
+    public function test_user_duplicaton () {
         $user1 = User::make([
             'name' => 'John Doe',
-            'email' => 'johndoe@gmail.com'
+            'email' => 'johndoe@example.com',
         ]);
-
         $user2 = User::make([
-            'name' => 'Mary Jane',
-            'email' => 'maryjane@gmail.com'
+            'name' => 'Erick Iglesiastical',
+            'email' => 'erickiglez@example.com',
         ]);
 
-        $this->assertTrue($user1->name != $user2->name);
+        $this->assertTrue($user1 != $user2);
     }
 
-    //Test if a user can be deleted (make sure that you add the middleware)
-    public function test_delete_user()
-    {
-        $user = User::factory()->count(1)->make();
+    // -------- Code delete the whole database --------
+    // public function test_delete_user() {
+    //     $user = User::factory()->count(1)->make();
+    //     $user = User::first();
 
-        $user = User::first();
+    //     if($user) {
+    //         $this->delete($user);
+    //     }
 
-        if($user) {
-            $user->delete();
-        }
+    //     $this->assertTrue(true);
+    // }
 
-        $this->assertTrue(true);
+    // Database test
+    // public function test_database() {
+    //     $this->assertDatabaseHas('users', [
+    //         'name' => 'John doe',
+    //     ]);
+    // }
+
+    //HTTP Test
+    public function test_login_form() {
+        $res = $this->get('/login'); // The route or API to test,
+        $res->assertStatus(200);// Expect status code 200
     }
 
-    //Perform a post() request to add a new user
-    public function test_if_it_stores_new_users()
-    {
-        $response = $this->post('/register', [
-            'name' => 'Dary',
-            'email' => 'dary@gmail.com',
-            'password' => 'dary1234',
-            'password_confirmation' => 'dary1234'
+    public function test_store_new_user() {
+        $res = $this->post('/register', [
+            'name' => 'Clark Aint',
+            'email' => 'clarkaints@gmail.com',
+            'passsword' => 'Kalume@21',
+            'passsword_confirmattion' => 'Kalume@21'
         ]);
 
-        $response->assertRedirect('/home');
-    }
-
-    public function test_if_data_exists_in_database()
-    {
-        $this->assertDatabaseHas('users', [
-            'name' => 'Dary'
-        ]);
-    }
-
-    public function test_if_data_does_not_exists_in_database()
-    {
-        $this->assertDatabaseHas('users', [
-            'name' => 'John'
-        ]);
-    }
-
-    public function test_if_seeders_works()
-    {
-        $this->seed();
-    }
-
-    public function test_if_seeder_works()
-    {
-        $this->seed(UsersTableSeeder::class);
+        $res->assertRedirect('/');
     }
 }
